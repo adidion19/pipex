@@ -1,0 +1,87 @@
+access : 
+	int access(const char *pathname, int mode);
+	pathname :	Ce paramètre permet d'indiquer le chemin de répertoire et/de fichiers à vérifier
+	Ce paramètre permet d'indiquer le numéro du mode d'accès :
+	mode :
+	F_OK	0	Cette constante permet d'indiquer une vérification de l'existence seulement
+	X_OK	2	Cette constante permet d'indiquer une vérification de la possibilité d'exécution
+	W_OK	4	Cette constante permet d'indiquer une vérification de la possibilité d'écriture
+	R_OK	6	Cette constante permet d'indiquer une vérification de la possibilité de lecture
+	N.B.: Il est possible d'effectuer des combinaisons de vérification comme par exemple «W_OK | R_OK» permet de vérifier la possibilité de lecture et d'écriture
+	retour:
+	0	Cette valeur permet d'indiquer que le fichier existe et que l'accès spécifié correspond.
+	-1	Cette valeur permet d'indiquer que le fichier n'existe pas ou que le mode d'accès spécifié ne correspond pas. Dans ce cas, il sera possible d'obtenir des informations supplémentaires en consultant la variable errno.
+
+open:
+	int open(const char *pathname, int flags, mode_t mode)
+	pathname	:	Ce paramètre permet d'indiquer le nom du fichier.
+	flags :
+	Ce paramètre permet d'indiquer le drapeau de mode d'ouverture (les constantes peuvent être combiné avec un caractère «|» sauf pour O_RDONLY, O_WRONLY et O_RDWR) :
+	Constante	Description
+	O_RDONLY	Cette constante permet d'indiquer qu'il faut ouvrir le fichier en mode lecture seulement.
+	O_WRONLY	Cette constante permet d'indiquer qu'il faut ouvrir le fichier en mode écriture seulement.
+	O_RDWR	Cette constante permet d'indiquer qu'il faut ouvrir le fichier en mode lecture et écriture.
+	O_APPEND	Cette constante permet d'indiquer que le déplacement du fichier doit être défini à la fin du fichier avant chaque écriture.
+	O_CREAT	Cette constante permet de créer le fichier.
+	O_DSYNC	Cette constante permet d'indiquer que les opérations d'entrée/sortie d'écriture dans le descripteur de fichier doivent se terminer comme défini par l'achèvement de l'intégrité des données d'entrée/sortie synchronisées.
+	O_EXCL	Cette constante permet d'indiquer que si le fichier existe, il ne peut pas être créé et qu'il doit retourner un erreur dans errno.
+	O_NOCTTY	Cette constante permet d'indiquer que si l'ensemble et le chemin de fichier identifient un terminal, la fonction open() ne doit pas faire en sorte que le terminal devienne le terminal de contrôle du processus.
+	O_NONBLOCK	Cette constante permet d'indiquer que s'il est en mode lecture qu'il doit retourné sans délai et si elle est écriture, il doit bloquer le processus léger appelant jusqu'à ce qu'un processus léger ouvre le fichier en écriture.
+	O_RSYNC	Cette constante permet d'indiquer que les opérations d'entrée/sortie de lecture sur le descripteur de fichier doivent se terminer au même niveau d'intégrité que celui spécifié par les drapeaux O_DSYNC et O_SYNC.
+	O_SYNC	Cette constante permet d'indiquer que les opérations d'entrée/sortie en écriture sur le descripteur de fichier doivent se terminer comme défini par l'achèvement de l'intégrité du fichier d'entrée/sortie synchronisé.
+	O_TRUNC	Cette constante permet d'indiquer que le fichier doit avoir la taille de 0 octets et donc que les données sont effacé s'il existe et a été ouvert avec succès par O_RDWR ou O_WRONLY.
+	O_CLOEXEC	Cette constante permet d'activer le drapeau close-on-exec pour le nouveau descripteur de fichier. Cette constante est disponible à partir du noyau Linux 2.6.23.
+	mode : (pas obligé)
+	S_IRWXO	00007	Cette valeur permet d'indiquer que tous ont la permission en lecture, écriture et d'exécution.
+	return :
+	-1	Cette valeur permet d'indiquer qu'une erreur s'est produite et la variable «errno» contiendra l'erreur.
+	valeur entière != -1	Ces valeurs permettent d'indiquer qu'un descripteur pour le socket est accepté.
+
+unlink : suprression de fichier
+	int unlink(const char *pathname);
+	pathname	Ce paramètre permet d'indiquer le nom du/des fichier(s)
+	return :
+	0	Cette valeur permet d'indiquer que l'opération a été un succès.
+	-1	Cette valeur permet d'indiquer qu'une erreur s'est produite et qu'il n'a pas été possible de changer le répertoire courant. Dans ce cas, il sera possible d'obtenir des informations supplémentaires en consultant la variable errno.
+
+close:
+	int close(int fildes);
+	filedes : Ce paramètre permet d'indiquer le descripteur de fichier Handle à fermer.
+
+read :
+	ssize_t read(int fildes, void *buf, size_t nbyte);
+	fildes	Ce paramètre permet d'indiquer le descripteur de fichier Handle.
+	buf	Ce paramètre permet d'indiquer le tampon allant recevoir les données.
+	nbyte	Ce paramètre permet d'indiquer la taille du tampon en octets.
+
+waitpid:
+	pid_t waitpid(pid_t pid, int *status, int options);
+	pid	Ce paramètre permet d'indiquer l'identificateur de processus
+	status	Ce paramètre permet d'indiquer l'état.
+	options	Ce paramètre permet d'indiquer les options souhaités (avec des combinaisons de constantes possibles à l'aide d'un «OU BINAIRE») :
+	Constante	Description
+	WNOHANG	Cette constante permet d'indiquer qu'il faut retourner immédiatement si l'enfant n'est pas sortie.
+	WUNTRACED	Cette constante permet d'indiquer qu'il faut aussi retourner si un enfant est arrêté.
+	WCONTINUED	Cette constante permet d'indiquer qu'il faut aussi retourner si un enfant est arrêté et qu'il faut résumé à la suite d'un SIGCONT.
+	Cette fonction permet de mettre en attente jusqu'à la fin d'un processus fils ayant un numéro de processus spécifié
+
+wait:
+	pid_t wait(int *stat_loc);
+	Cette fonction permet de mettre en attente jusqu'à la fin d'un processus fils.
+
+pipe:
+	int pipe(int fildes[2]);
+	filedes[0]	Ce paramètre permet d'indiquer l'identificateur du fichier en lecture
+	filedes[1]	Ce paramètre permet d'indiquer l'identificateur du fichier en écriture
+	Cette fonction permet d'effectuer la création d'un canal entre processus.
+
+dup:
+	int dup(int fildes);
+	fildes	Ce paramètre permet d'indiquer l'identificateur de fichier.
+
+dup2:
+	int dup2(int fildes, int fildes2);
+	fildes	Ce paramètre permet d'indiquer l'identificateur de l'ancien fichier
+	fildes2	Ce paramètre permet d'indiquer l'identificateur du nouveau fichier
+	a1
+	a1a1a1a1
