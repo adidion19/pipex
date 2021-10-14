@@ -18,9 +18,12 @@ char	*ft_strdup(const char *src)
 	char	*dest;
 
 	i = 0;
+	if (!src)
+		return (0);
 	while (src[i])
 		i++;
-	if (!(dest = malloc(sizeof(char) * (i + 1))))
+	dest = malloc(sizeof(char) * (i + 1));
+	if (!dest)
 		return (0);
 	i = -1;
 	while (src[++i])
@@ -29,9 +32,9 @@ char	*ft_strdup(const char *src)
 	return (dest);
 }
 
-static int		len_(char *str)
+static int	len_(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -39,7 +42,15 @@ static int		len_(char *str)
 	return (i);
 }
 
-char			*ft_strjoin(char const *s1, char const *s2)
+void	ft_freee(int k, char *s1, char *s2)
+{
+	if (k == 3 || k == 1)
+		free(s1);
+	if (k == 3 || k == 2)
+		free(s2);
+}
+
+char	*ft_strjoin(char *s1, char *s2, int k)
 {
 	int		i;
 	int		j;
@@ -48,15 +59,14 @@ char			*ft_strjoin(char const *s1, char const *s2)
 	char	*str;
 
 	i = -1;
-	if (!s1 && !s2)
-		return (0);
 	if (!s1)
-		return (ft_strdup((char*)s2));
+		return (ft_strdup((char *)s2));
 	if (!s2)
-		return (ft_strdup((char*)s1));
-	len1 = len_((char*)s1);
-	len2 = len_((char*)s2);
-	if (!(str = malloc(sizeof(char) * (len1 + len2 + 1))))
+		return (ft_strdup((char *)s1));
+	len1 = len_((char *)s1);
+	len2 = len_((char *)s2);
+	str = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!str)
 		return (0);
 	while (s1[++i])
 		str[i] = s1[i];
@@ -65,5 +75,6 @@ char			*ft_strjoin(char const *s1, char const *s2)
 	while (s2[++i])
 		str[j++] = s2[i];
 	str[j] = '\0';
+	ft_freee(k, s1, s2);
 	return (str);
 }

@@ -12,16 +12,16 @@
 
 #include "pipex.h"
 
-static int		in_string(char c, char c2)
+static int	in_string(char c, char c2)
 {
 	if (c == c2)
 		return (1);
 	return (0);
 }
 
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -29,10 +29,10 @@ int		ft_strlen(char *str)
 	return (i);
 }
 
-static int		count_word(char *str, char charset)
+static int	count_word(char *str, char charset)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -50,9 +50,9 @@ static int		count_word(char *str, char charset)
 	return (count);
 }
 
-static char		**free_tab(char **tab, int j)
+static char	**free_tab(char **tab, int j)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < j && tab[i])
@@ -61,10 +61,10 @@ static char		**free_tab(char **tab, int j)
 		i++;
 	}
 	free(tab);
-	exit(EXIT_FAILURE);
+	return (0);
 }
 
-char			**ft_split_2(char const *s, char c, char *av)
+char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		j;
@@ -74,45 +74,17 @@ char			**ft_split_2(char const *s, char c, char *av)
 	i = 0;
 	j = 0;
 	index = 0;
-	tab = 0;
-	if (!s || !(tab = malloc(sizeof(*tab) * (count_word((char*)s, c) + 2))))
-		exit(EXIT_FAILURE);
-	while (index < count_word((char*)s, c))
+	tab = malloc(sizeof(*tab) * (count_word((char *)s, c) + 2));
+	if (!s || !(tab))
+		return (0);
+	while (index < count_word((char *)s, c))
 	{
-		if (!(tab[index] = malloc(sizeof(char) * (ft_strlen((char*)s) + 1))))
+		tab[index] = malloc(sizeof(char) * (ft_strlen((char *)s) + 1));
+		if (!(tab))
 			return (free_tab(tab, i));
-		while (s[i] && in_string(((char*)s)[i], c))
+		while (s[i] && in_string(((char *)s)[i], c))
 			i++;
-		while (s[i] && !in_string(((char*)s)[i], c))
-			tab[index][j++] = s[i++];
-		tab[index++][j] = '\0';
-		j = 0;
-	}
-	tab[index++] = ft_strjoin(av, "");
-	tab[index] = 0;
-	return (tab);
-}
-
-char			**ft_split(char const *s, char c)
-{
-	int		i;
-	int		j;
-	int		index;
-	char	**tab;
-
-	i = 0;
-	j = 0;
-	index = 0;
-	tab = 0;
-	if (!s || !(tab = malloc(sizeof(*tab) * (count_word((char*)s, c) + 2))))
-		exit(EXIT_FAILURE);
-	while (index < count_word((char*)s, c))
-	{
-		if (!(tab[index] = malloc(sizeof(char) * (ft_strlen((char*)s) + 1))))
-			return (free_tab(tab, i));
-		while (s[i] && in_string(((char*)s)[i], c))
-			i++;
-		while (s[i] && !in_string(((char*)s)[i], c))
+		while (s[i] && !in_string(((char *)s)[i], c))
 			tab[index][j++] = s[i++];
 		tab[index++][j] = '\0';
 		j = 0;
