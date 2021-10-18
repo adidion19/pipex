@@ -45,7 +45,7 @@ int	ft_error(int ac, char **av)
 		ft_putstr_fd("Error\nBad number of argumnts\n", 1);
 		exit(EXIT_FAILURE);
 	}
-	file = open(av[4], O_RDWR | O_TRUNC | O_CREAT | 00777);
+	file = open(av[4], O_RDWR | O_TRUNC | O_CREAT, 00777);
 	if (file == -1)
 	{
 		ft_putstr_fd("Error\nFile doesn't exist, or you don't have the ", 1);
