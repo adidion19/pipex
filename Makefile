@@ -19,6 +19,8 @@ NAME =	pipex
 SRCS =	main.c\
 		ft_split.c\
 		ft_strjoin.c\
+		pipex_utils.c\
+		pipex_utils_2.c\
 
 OBJS = $(SRCS:.c=.o)
 
