@@ -88,7 +88,7 @@ int	ft_first_command(int *fd, int *file, char ***new_arg, char **env)
 	i = -1;
 	if (pid1 == 0)
 	{
-		ft_first_utils(fd[0], fd[1], file[1]);
+		ft_first_utils(fd[0], fd[1], file[0]);
 		while (path[++i])
 		{
 			path[i] = ft_strjoin(path[i], "/", 0);
@@ -120,9 +120,9 @@ int	main(int ac, char **av, char **env)
 	pid[1] = ft_second_command(fd, file, new_arg, env);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid[0], &status, 0);
-	waitpid(pid[1], &status, 0);
 	close(file[0]);
 	close(file[1]);
+	waitpid(pid[0], &status, 0);
+	waitpid(pid[1], &status, 0);
 	ft_free_arg(new_arg, 0);
 }
